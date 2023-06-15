@@ -17,7 +17,6 @@ x = list()
 y = list()
 start = 0  # to avoid warning from PyCharm
 time_end = int(input("Insert how long simulation should be working: "))
-sample_time = int(input('Sample time interval in ms: '))
 # tutaj arduno ogarnąć i wgl:
 my_board = serial.Serial()
 my_board.port = 'COM4'
@@ -40,12 +39,11 @@ plt.grid()
 def animate(i):
     global start
     if i == 0:
-        start = time.process_time()  # to subtract beginning time
-
-    x.append(time.process_time() - start)  # time.process_time()-start
-    time.sleep(sample_time / 1000)
+        start = time.time()  # to subtract beginning time
+    data_t = time.time() - start
+    x.append(data_t)  # time.process_time()-start
     # do zamiany na inf z arduino:
-    y.append(sin(time.process_time() - start))
+    y.append(sin(data_t))
     ln.set_data(x, y)
     if min(y) == max(y):
         ax.set_ylim([-1, max(y)])
@@ -55,7 +53,7 @@ def animate(i):
         ani.event_source.stop()
 
 
-ani = FuncAnimation(fig, animate, interval=0, frames=time_end * sample_time * 1000)
+ani = FuncAnimation(fig, animate, interval=0.01, frames=time_end * 1000 * 1000)
 plt.show()
 
 file = open('Data.txt', 'a')
