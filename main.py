@@ -5,19 +5,11 @@ import serial
 import time
 import pandas as pd
 
-# pomysł:
-# wał złączony z silnikiem prądu stałego posiada w odległości d/2 (od osi) naklejkę, która będzie wykrywana
-# przez czujnik laserowy, który wysyła informację binarną do programu poprzez płytkę arduino uno (klon arduino)
-# odstęp między kolejnymi impulsami (tj. pojawieniem się 1 na wejściu) oznacza okres (T = x milisekund)
-# z okresu wyznaczamy prędkość kątową omega = 2PI/T
-# z prędkości kątowej można wyznaczyć prędkość styczną v = omega*r i ew. inne jakieś parametry prędkość obr n=1/T itd.
-
-
 x = list()
 y = list()
 start = 0  # to avoid warning from PyCharm
 time_end = int(input("Insert how long simulation should be working: "))
-# tutaj arduno ogarnąć i wgl:
+# Arduino reference:
 my_board = serial.Serial()
 my_board.port = 'COM4'
 my_board.baudrate = 9600
@@ -42,7 +34,7 @@ def animate(i):
         start = time.time()  # to subtract beginning time
     data_t = time.time() - start
     x.append(data_t)  # time.process_time()-start
-    # do zamiany na inf z arduino:
+    # y.append(arduino_data)
     y.append(sin(data_t))
     ln.set_data(x, y)
     if min(y) == max(y):
