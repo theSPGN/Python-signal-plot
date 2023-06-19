@@ -4,6 +4,7 @@ from matplotlib.animation import FuncAnimation
 import serial
 import time
 import pandas as pd
+import numpy as np
 
 x = list()
 y = list()
@@ -34,8 +35,11 @@ def animate(i):
         start = time.time()  # to subtract beginning time
     data_t = time.time() - start
     x.append(data_t)  # time.process_time()-start
-    # y.append(arduino_data)
-    y.append(sin(data_t))
+    # replace code below with arduino data y.append(arduino_data)
+    gain = 0.05  # noise amp.
+    noise = gain * np.random.normal(0, 1, 1)
+    y.append(sin(data_t + noise))
+    # arduino up there
     ln.set_data(x, y)
     if min(y) == max(y):
         ax.set_ylim([-1, max(y)])
