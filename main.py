@@ -51,8 +51,8 @@ def animate(i):
 
 ani = FuncAnimation(fig, animate, interval=0.01, frames=time_end * 1000 * 1000)
 plt.show()
-
-file = open('Data.txt', 'a')
+filename = time.strftime("Day-%d-%m-%Y_Hour-%H-%M-%S")+".txt"
+file = open(filename, 'a')
 file.write(time.ctime() + '\n')
 
 container = {'Time': x, 'Values': y}
