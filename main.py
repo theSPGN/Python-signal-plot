@@ -14,6 +14,7 @@ time_end = int(input("Insert how long simulation should be working: "))
 my_board = serial.Serial()
 my_board.port = 'COM4'
 my_board.baudrate = 9600
+# my_board.open()
 name_of_file = time.strftime("Day-%d-%m-%Y_Hour-%H-%M-%S")
 
 # explanation of "fig, ax...":
@@ -37,9 +38,14 @@ def animate(i):
     data_t = time.time() - start
     x.append(data_t)
     # replace code below with arduino data y.append(arduino_data)
+    # arduino_data = str(my_board.readline())
+    # a_data = int(arduino_data[2:][:-5])
+    # y.append(a_data)
     gain = 0.05  # noise amp.
     noise = gain * np.random.normal(0, 1, 1)
     y.append(sin(data_t + noise))  # simulate signal of arduino input
+
+
     # arduino up there
     ln.set_data(x, y)
     if min(y) == max(y):
