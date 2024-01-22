@@ -12,7 +12,7 @@ start = 0  # to avoid warning from PyCharm
 time_end = int(input("Insert how long simulation should be working: "))
 # Arduino reference:
 my_board = serial.Serial()
-my_board.port = 'COM4'
+my_board.port = "COM4"
 my_board.baudrate = 9600
 # my_board.open()
 name_of_file = time.strftime("Day-%d-%m-%Y_Hour-%H-%M-%S")
@@ -23,10 +23,10 @@ name_of_file = time.strftime("Day-%d-%m-%Y_Hour-%H-%M-%S")
 # explanation of "ln,": https://stackoverflow.com/questions/65337288/line-ax-plotx-y
 fig, ax = plt.subplots()
 ax.autoscale_view()
-ln, = ax.plot(x, y)
-plt.xlabel('Time [s]')
-plt.ylabel('Voltage [V]')
-plt.title('Signal')
+(ln,) = ax.plot(x, y)
+plt.xlabel("Time [s]")
+plt.ylabel("Voltage [V]")
+plt.title("Signal")
 ax.set_xlim([0, time_end])
 plt.grid()
 
@@ -44,7 +44,6 @@ def animate(i):
     gain = 0.05  # noise amp.
     noise = gain * np.random.normal(0, 1, 1)
     y.append(sin(data_t + noise))  # simulate signal of arduino input
-
 
     # arduino up there
     ln.set_data(x, y)
@@ -65,21 +64,21 @@ ani = FuncAnimation(fig, animate, interval=0.01, frames=time_end * 1000 * 1000)
 plt.show()
 # save data to file:
 filename = name_of_file + ".txt"
-file = open(filename, 'a')
-file.write(time.ctime() + '\n')
-container = {'Time': x, 'Values': y}
+file = open(filename, "a")
+file.write(time.ctime() + "\n")
+container = {"Time": x, "Values": y}
 signal_data = pd.DataFrame(container).to_string(index=False)
 file.write(signal_data)
-file.write('\n')
+file.write("\n")
 file.close()
 
 # making gif of output:
 fig2, ax2 = plt.subplots()
 ax2.autoscale_view()
-ln2, = ax2.plot(x, y)
-plt.xlabel('Time [s]')
-plt.ylabel('Voltage [V]')
-plt.title('Signal')
+(ln2,) = ax2.plot(x, y)
+plt.xlabel("Time [s]")
+plt.ylabel("Voltage [V]")
+plt.title("Signal")
 ax2.set_xlim([0, time_end])
 ax2.set_ylim([min(y) - 0.01, max(y) + 0.01])
 plt.grid()
